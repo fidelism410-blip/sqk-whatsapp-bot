@@ -1,0 +1,8 @@
+services:
+  sqk-bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+      - ./auth:/app/auth
