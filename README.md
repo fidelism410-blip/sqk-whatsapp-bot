@@ -1,59 +1,75 @@
 # SQK Competitive — Bot de WhatsApp
 
-Bot de WhatsApp para administrar o competitivo da SQK por conversa privada.
+Bot competitivo para gestão da SQK via WhatsApp, com autenticação de dono/capitão, scrims, equipes, inscrições, pagamentos, resultados, ranking, MVP e cards automáticos.
 
-## O que já está implementado
+## Funcionalidades
 
-- Acesso do **dono por número + palavra-chave**.
-- Dono cadastra **capitães com número + palavra-chave individual**.
-- Capitão pode inscrever **quantas equipes precisar**; o limite é apenas o total de vagas da Scrim.
-- Dono pode cadastrar várias Scrims. Todas as Scrims abertas aparecem automaticamente no menu de inscrição.
-- Inscrição exige: nome do time, line, reserva opcional, **logo do time** e **comprovante PIX**.
-- **Sem comprovante, a inscrição não é criada/concluída.**
-- Dono consegue visualizar comprovantes e marcar como validado ou recusado.
-- Resultado exige: time, queda, **colocação** e **print da tela final**.
-- Com `OPENAI_API_KEY`, o bot tenta reconhecer as kills no print. Se não tiver segurança, pede kills manualmente.
-- Pontuação padrão SQK/EWC por queda: Top 1 = 1.6x kills; Top 2–5 = 1.4x; Top 6–10 = 1.2x; Top 11–16 = 1.0x.
-- Ranking atualizado assim que o resultado é confirmado.
-- Gera card 1080x1080 de inscrição e ranking em tema clean branco/azul metálico.
-- Perguntas públicas sobre Scrims, ranking, regras e pagamento.
-- Com IA configurada, responde perguntas livres usando somente a base cadastrada do competitivo.
+- Autenticação do dono por número + palavra-chave
+- Autenticação de capitães por número + palavra-chave
+- Cadastro e gestão de várias Scrims
+- Inscrições com equipe, jogadores, reservas, logo e comprovante PIX
+- Aprovação/rejeição de pagamentos
+- Resultados com perda de kills e pontuação
+- Ranking por scrim
+- MVP por kills
+- Cards automáticos em SVG + Sharp
+- IA opcional com OpenAI Vision para leitura de print
+- Dashboard HTTP em Express para status/QR
+- Compatível com Render
+
+## Requisitos
+
+- Node.js 20+
+- Conta no Render para hospedar o serviço
+- WhatsApp para escanear o QR code do Baileys
 
 ## Instalação
 
-1. Instale Node.js 20 ou superior.
-2. Copie `.env.example` para `.env`.
-3. Preencha `OWNER_PHONE`, `OWNER_KEYWORD` e `KEYWORD_SECRET`.
-4. Opcional: preencha `OPENAI_API_KEY` para leitura automática de prints e perguntas livres.
-5. Rode:
-
 ```bash
 npm install
+cp .env.example .env
+# Edite o .env com seus dados
 npm start
 ```
 
-No primeiro início aparecerá um QR no terminal. No WhatsApp que será usado como bot, abra **Configurações > Aparelhos conectados > Conectar aparelho** e escaneie.
+## Variáveis de ambiente
 
-## Primeiro acesso do dono
+```env
+OWNER_PHONE=5514999999999
+OWNER_NAME=FideliisNX
+OWNER_KEYWORD=troque-essa-palavra
+KEYWORD_SECRET=troque-por-uma-chave-grande
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-5-mini
+DATA_DIR=./data
+AUTH_DIR=./auth
+SESSION_HOURS=12
+ALLOW_GROUPS=false
+BOT_NAME=SQK Competitive
+TZ=America/Sao_Paulo
+PORT=10000
+```
 
-Envie no privado do número do bot exatamente a palavra definida em `OWNER_KEYWORD` usando o número definido em `OWNER_PHONE`.
+## Como usar
 
-O menu do dono permite cadastrar Scrims e capitães. O capitão autentica do próprio WhatsApp com a palavra-chave que o dono cadastrou.
+1. Inicie o app.
+2. Escaneie o QR Code no terminal ou na página /.
+3. Envie a palavra-chave do dono no número configurado em `OWNER_PHONE`.
+4. O bot liberará o menu do dono.
+5. Cadastre capitães e Scrims.
+6. Faça inscrições com logo e comprovante PIX.
+7. Acompanhe ranking, MVP e resultados.
 
-## Fluxo de inscrição
+## Render
 
-`palavra-chave -> 1 Inscrever time -> Scrim -> nome -> line -> reserva -> logo -> PIX/comprovante -> inscrição concluída`
+Use `render.yaml` com o build e start padrão do Node.
 
-O slot só é criado quando o comprovante é recebido.
+## Segurança
 
-## Fluxo de resultado
+- Não exponha `.env` em repositório público.
+- Nunca grave a palavra-chave em texto claro.
+- Não imprima `OPENAI_API_KEY` ou dados sensíveis no log.
 
-`palavra-chave -> 3 Enviar resultado -> equipe -> queda -> colocação -> print -> IA lê kills (ou pede manual) -> confirmação -> ranking`
+## Observação
 
-## Persistência
-
-As informações ficam em `DATA_DIR` e a sessão do WhatsApp em `AUTH_DIR`. Em hospedagem/Docker, **essas duas pastas precisam de volume persistente**. Não coloque a pasta `auth` em repositório público.
-
-## Observação sobre WhatsApp
-
-Este projeto usa Baileys (WhatsApp Web não oficial). Não use para spam ou disparos em massa. Para operação comercial com suporte oficial da Meta, migre a camada de transporte para a WhatsApp Business Platform mantendo os mesmos fluxos e banco de dados.
+Este bot usa Baileys para WhatsApp Web; mantenha o ambiente com persistência de `auth` e `data`.

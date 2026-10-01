@@ -1,0 +1,16 @@
+node_modules/
+.env
+auth/
+data/*.json
+uploads/logos/*
+uploads/payments/*
+uploads/results/*
+uploads/cards/*
+*.log
+.DS_Store
+
+!uploads/logos/.gitkeep
+!uploads/payments/.gitkeep
+!uploads/results/.gitkeep
+!uploads/cards/.gitkeep
+!data/.gitkeep

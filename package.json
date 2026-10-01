@@ -1,13 +1,11 @@
 {
-  "name": "sqk-whatsapp-competitive-bot",
+  "name": "sqk-whatsapp-competitive",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Bot WhatsApp da SQK para Scrims, inscrições, PIX, resultados, ranking e IA.",
-  "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "check": "node --check src/index.js && node --check src/bot.js && node --check src/store.js && node --check src/ai.js && node --check src/cards.js && node --check src/scoring.js"
+    "start": "node src/index.mjs",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=20"
@@ -16,9 +14,10 @@
     "@hapi/boom": "^10.0.1",
     "@whiskeysockets/baileys": "7.0.0-rc.14",
     "dotenv": "^16.6.1",
+    "express": "^4.19.2",
     "openai": "^5.20.3",
     "pino": "^9.9.4",
-    "qrcode-terminal": "^0.12.0",
+    "qrcode": "^1.0.0",
     "sharp": "^0.34.4"
   }
 }
