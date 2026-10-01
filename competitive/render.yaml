@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: sqk-competitive-bot
+    runtime: node
+    rootDir: competitive
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TZ
+        value: America/Sao_Paulo
+      - key: DATABASE_SSL
+        value: "false"

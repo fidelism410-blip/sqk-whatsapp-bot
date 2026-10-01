@@ -1,0 +1,1 @@
+export class MvpService{constructor(players,results){this.players=players;this.results=results}async get(scrimId,limit=50){const all=await this.results.db.findAll('results',10000);const rows=await this.players.topApproved(all,scrimId,limit);return rows.map((x,i)=>({position:i+1,...x}))}}export default MvpService

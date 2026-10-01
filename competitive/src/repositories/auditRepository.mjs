@@ -1,0 +1,2 @@
+import{generateId}from'../utils/ids.mjs';import{nowIso}from'../utils/dates.mjs'
+export class AuditRepository{constructor(db){this.db=db}create(action,actor,targetType,targetId,changes={},metadata={},c=null){return this.db.insert('audit',{id:generateId('audit'),action,actor:String(actor||'system'),targetType,targetId:String(targetId),changes,metadata,createdAt:nowIso()},c)}findAll(c=null){return this.db.findAll('audit',5000,c)}}export default AuditRepository

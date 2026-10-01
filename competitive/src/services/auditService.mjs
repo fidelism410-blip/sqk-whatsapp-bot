@@ -1,0 +1,1 @@
+export class AuditService{constructor(repo){this.repo=repo}log(...args){return this.repo.create(...args)}}export default AuditService

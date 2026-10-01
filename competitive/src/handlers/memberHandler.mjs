@@ -1,0 +1,1 @@
+export class MemberHandler{constructor(knowledge){this.knowledge=knowledge}async handle(ctx){return await this.knowledge.answer(ctx.text,{phone:ctx.phone})||'Envie a palavra-chave de acesso ou pergunte sobre Scrims abertas, horários e regras.'}}export default MemberHandler

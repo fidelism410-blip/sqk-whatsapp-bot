@@ -1,0 +1,4 @@
+import { env } from '../config/env.mjs'
+const clean=(x)=>{if(!x||typeof x!=='object')return x;const out=Array.isArray(x)?[]:{};for(const[k,v]of Object.entries(x)){if(/password|keyword|secret|token|apikey|databaseurl|authvalue|creds|keys/i.test(k))out[k]='[REDACTED]';else out[k]=typeof v==='object'&&v?clean(v):v}return out}
+const emit=(level,msg,data)=>{if(env.nodeEnv==='test'&&level==='debug')return;const fn=level==='error'?console.error:level==='warn'?console.warn:console.log;fn(`[${level.toUpperCase()}] ${msg}`,data?clean(data):'')}
+export const logInfo=(m,d)=>emit('info',m,d);export const logDebug=(m,d)=>emit('debug',m,d);export const logWarn=(m,d)=>emit('warn',m,d);export const logError=(m,e,d)=>emit('error',m,{message:e?.message||String(e||''),...(d||{})});export default{info:logInfo,debug:logDebug,warn:logWarn,error:logError}

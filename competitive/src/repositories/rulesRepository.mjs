@@ -1,0 +1,2 @@
+import{generateId}from'../utils/ids.mjs';import{nowIso}from'../utils/dates.mjs'
+export class RulesRepository{constructor(db){this.db=db}create(content,createdBy,c=null){return this.db.insert('rules',{id:generateId('rule'),content,createdBy,createdAt:nowIso(),updatedAt:nowIso()},c)}findAll(c=null){return this.db.findAll('rules',500,c)}delete(id,c=null){return this.db.delete('rules',id,c)}}export default RulesRepository

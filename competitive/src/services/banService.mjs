@@ -1,0 +1,3 @@
+import { normalizePhone } from '../utils/phone.mjs'
+export class BanService{constructor(repo,audit){this.repo=repo;this.audit=audit}async isBanned(phone){return Boolean(await this.repo.findActiveByPhone(normalizePhone(phone)))}async ban(actor,phone,reason,expiresAt=null){const b=await this.repo.create({phone:normalizePhone(phone),reason,createdBy:actor,expiresAt});await this.audit.create('user_banned',actor,'ban',b.id,{phone:b.phone,reason});return b}async unban(actor,id){const b=await this.repo.update(id,{active:false});if(b)await this.audit.create('user_unbanned',actor,'ban',id);return b}async list(){return this.repo.findAll()}}
+export default BanService

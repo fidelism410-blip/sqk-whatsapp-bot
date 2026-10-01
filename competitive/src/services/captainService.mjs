@@ -1,0 +1,1 @@
+export class CaptainService{constructor(captainRepo,userRepo){this.captains=captainRepo;this.users=userRepo}async getByUserId(id){return this.captains.findByUserId(id)}async list(){const caps=await this.captains.findAll();return Promise.all(caps.map(async c=>({...c,user:await this.users.findById(c.userId)})))}}export default CaptainService

@@ -1,0 +1,2 @@
+export class RuleService{constructor(repo,audit){this.repo=repo;this.audit=audit}async list(){return this.repo.findAll()}async add(actor,content){if(String(content||'').trim().length<5)throw new Error('Regra muito curta');const r=await this.repo.create(String(content).trim(),actor);await this.audit.create('rule_created',actor,'rule',r.id);return r}async remove(actor,id){const r=await this.repo.delete(id);if(r)await this.audit.create('rule_deleted',actor,'rule',id);return r}}
+export default RuleService

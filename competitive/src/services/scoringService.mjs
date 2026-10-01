@@ -1,0 +1,2 @@
+import{DEFAULT_SCORING}from'../config/constants.mjs'
+export class ScoringService{multiplier(p,cfg={}){const c={...DEFAULT_SCORING,...cfg};p=Number(p);if(p===1)return Number(c.placement1);if(p<=5)return Number(c.placement2To5);if(p<=10)return Number(c.placement6To10);if(p<=16)return Number(c.placement11To16);return Number(c.defaultMultiplier)}calculate(kills,placement,cfg={}){kills=Number(kills);const multiplier=this.multiplier(placement,cfg);return{kills,placement:Number(placement),multiplier,points:kills*multiplier}}}export default ScoringService
